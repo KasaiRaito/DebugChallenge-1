@@ -13,48 +13,42 @@ public class WarningHelper : MonoBehaviour
 
         if (!myPlayer.GetSpeed())
         {
-            Debug.LogError("Speed is equal to 0.0f"); // Ve en el Unity /en jerarquía /Player /Player (Script) /Speed
+            Debug.LogWarning("Speed is equal to 0.0f"); // Ve en el Unity /en jerarquía /Player /Player (Script) /Speed
         }
 
         if (!myPlayer.GetJumpSpeed())
         {
-            Debug.LogError("JumpSpeed is equal to 0.0f"); // Ve en el Unity /en jerarquía /Player /Player (Script) /Jump Force
+            Debug.LogWarning("JumpSpeed is equal to 0.0f"); // Ve en el Unity /en jerarquía /Player /Player (Script) /Jump Force
         }
 
-        if (!myPlayer.GetGravity())
+        if (!myPlayer.GetAcceleration())
         {
-            Debug.LogError("Gravity is equal to 0.0f"); // Ve en el Unity /en jerarquía /Player /Player (Script) /Gravity Scale
+            Debug.LogWarning("Acceleration is equal to 0.0f"); // Ve en el Unity /en jerarquía /Player /Player (Script) /Gravity Scale
         }
 
-        if (!myPlayer.GetUseRb())
+        if (!myPlayer.GetDeceleration())
         {
-            Debug.LogError("UseRb is " + myPlayer.GetUseRb()); // Ve en el Unity /en jerarquía /Player /Player (Script) /Use Rb
-            
+            Debug.LogWarning("Deceleration is equal to 0.0f");
         }
-        else if (myPlayer.GetRbComponent() == null)
+
+        if (myPlayer.GetRbComponent())
         {
-            Debug.LogError("Player doesn't have Rb Component"); // Ve en el Unity /en jerarquía /Player /Agregar Componente /RigidBody2D
-        }
-        else
-        {
-            if (myPlayer.GetRbComponent().gravityScale != 0f)
+            if (myPlayer.GetRbComponent().gravityScale == 0f)
             {
-                Debug.LogError("GravityScale is different to 0.0f"); // Ve en el Unity /en jerarquía /Player /Rigidbody 2D /Gravity Scale
+                Debug.LogWarning("GravityScale is equal to 0.0f"); // Ve en el Unity /en jerarquía /Player /Rigidbody 2D /Gravity Scale
             }
             if (!myPlayer.GetRbComponent().simulated)
             {
-                Debug.LogError("Simulated is off"); // Ve en el Unity /en jerarquía /Player /Rigidbody 2D /Simulate
+                Debug.LogWarning("Simulated is off"); // Ve en el Unity /en jerarquía /Player /Rigidbody 2D /Simulate
             }
             if ((myPlayer.GetRbComponent().constraints & RigidbodyConstraints2D.FreezeRotation) == 0)
             {
-                Debug.LogError("Constrain Rotation is off"); // Ve en el Unity /en jerarquía /Player /Rigidbody 2D /Constraints /Freeze Rotation Z
+                Debug.LogWarning("Constrain Rotation is off"); // Ve en el Unity /en jerarquía /Player /Rigidbody 2D /Constraints /Freeze Rotation Z
             }
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        else
+        { 
+            Debug.LogWarning("Player doesn't have Rb Component"); // Ve en el Unity /en jerarquía /Player /Agregar Componente /RigidBody2D 
+        }
     }
 }
