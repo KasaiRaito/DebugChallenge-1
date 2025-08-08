@@ -51,6 +51,8 @@ public class Player : MonoBehaviour
         {
             _playerTransform.position += _playerDelta;
         }
+        
+        Debug.Log(_playerDelta);
     }
 
     void Move()
@@ -90,6 +92,7 @@ public class Player : MonoBehaviour
         else
         {
             _playerDelta.y = 0;
+            //Debug.Log("OnGround");
         }
     }
     
@@ -98,7 +101,6 @@ public class Player : MonoBehaviour
         if (other.gameObject.CompareTag("Ground"))
         {
             _onGround = true;
-            //Debug.Log("OnGround");
         }
     }
 }
