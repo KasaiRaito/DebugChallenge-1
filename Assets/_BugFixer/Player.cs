@@ -1,14 +1,16 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+[DefaultExecutionOrder(-100)]
 
 public class Player : MonoBehaviour
 {
+    #region Don't move - Start & Var 
     public bool useRb;
     
     public float speed; // Velocidad de Movimiento
     private Transform _playerTransform; // Componente posicion del jugador
     
-    private PlayerInput _playerInput; // Componente Input
+    private PlayerInput _playerInput; // Componente Input
     private Vector2 _playerMove; // Valor extraido del Input Movimeinto
     private Vector3 _playerDelta; // Input Movimiento Escalado a la Velocidad establecida
 
@@ -20,7 +22,7 @@ public class Player : MonoBehaviour
     private Rigidbody2D _rigidbody2D;
     
     void Start()
-    { 
+    {
         _playerInput = this.gameObject.GetComponent<PlayerInput>(); //Conseguir el componente de NEW INPUT SYSTEM 
 
         if (useRb)
@@ -32,13 +34,14 @@ public class Player : MonoBehaviour
             _playerTransform = this.gameObject.GetComponent<Transform>(); //Conseguir el componente de posicion de un objeto.
         }
     }
+    #endregion
     
     void FixedUpdate()
     { 
         //Calcular Fisicas
         CalculateGravity();
         
-        //Detectar Inputs
+        //Detectar Inputs (No errors)
         Move(); 
         Jump();
         
@@ -52,9 +55,65 @@ public class Player : MonoBehaviour
             _playerTransform.position += _playerDelta;
         }
         
-        Debug.Log(_playerDelta);
+        //Debug.Log(_playerDelta);
     }
 
+    void CalculateGravity()
+    {
+        if (!_onGround)
+        {
+            _playerDelta.y += (gravityScale * Time.deltaTime); //Esta sumando
+            _playerDelta.y = Mathf.Min(_playerDelta.y, -gravityScale); // Limitar velocidad de caida
+            //Debug.LogWarning("Falling");
+        }
+        else
+        {
+            _playerDelta.y = 0;
+            //Debug.Log("OnGround");
+        }
+    }
+    
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.gameObject.CompareTag("Ground ")) //Arreglar error de Nombre
+        {
+            _onGround = true;
+        }
+    }
+
+    #region  Don't Move - WarningHelper
+    public bool GetSpeed()
+    {
+        return (speed != 0f);
+    }
+
+    public bool GetJumpSpeed()
+    {
+        return (jumpForce != 0f);
+    }
+
+    public bool GetGravity()
+    {
+        return (gravityScale != 0);
+    }
+
+    public bool GetHaveRb()
+    {
+        return (_rigidbody2D != null);
+    }
+
+    public bool GetUseRb()
+    {
+        return (useRb);
+    }
+
+    public Rigidbody2D GetRbComponent()
+    {
+        return (_rigidbody2D);
+    }
+    #endregion
+
+    #region Don't move - No Errors
     void Move()
     {
         //Detectar input con NEW INPUT SYSTEM
@@ -80,27 +139,5 @@ public class Player : MonoBehaviour
         
         //Debug.Log(_playerJump);
     }
-
-    void CalculateGravity()
-    {
-        if (!_onGround)
-        {
-            _playerDelta.y -= (gravityScale * Time.deltaTime);
-            _playerDelta.y = Mathf.Min(_playerDelta.y, -gravityScale); // Limitar velocidad de caida
-            //Debug.LogWarning("Falling");
-        }
-        else
-        {
-            _playerDelta.y = 0;
-            //Debug.Log("OnGround");
-        }
-    }
-    
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.gameObject.CompareTag("Ground"))
-        {
-            _onGround = true;
-        }
-    }
+    #endregion
 }
