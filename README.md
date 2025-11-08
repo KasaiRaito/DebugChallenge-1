@@ -19,6 +19,9 @@ Te reto a arreglar este simple plataformer 2D.
 ### Programación:
 
 * KasaiRaito. (n.d.). DebugChallenge-1 - GitHub
+
+&nbsp;	- https://github.com/KasaiRaito/DebugChallenge-1/tree/Challenge
+
 * Libres para uso en proyectos personales, académicos o de enseñanza.
 
 
@@ -26,6 +29,4 @@ Te reto a arreglar este simple plataformer 2D.
 ====================================================================================================================================
 
 ====================================================================================================================================
-
-
 
